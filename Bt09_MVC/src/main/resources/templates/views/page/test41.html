@@ -1,0 +1,122 @@
+<!DOCTYPE html>
+<html lang="ko">
+<head>
+    <meta charset="UTF-8">
+    <title>국어 사전검색 API</title>
+    <style>
+        table,th,td {
+            border : 1px solid black;
+            border-collapse: collapse;
+        }
+        th,td {
+            padding: 5px;
+        }
+    </style>
+</head>
+<!--
+■ 국립국어원 표준국어대사전 오픈 API - 사전검색
+https://stdict.korean.go.kr/openapi/openApiInfo.do
+
+
+
+
+샘플url
+
+
+XML 버젼
+예] https://stdict.korean.go.kr/api/search.do?key=864D30AF596AD24A5506E2C588A1A69D&req_type=xml&q=나무
+
+
+JSON 버젼
+예] https://stdict.korean.go.kr/api/search.do?key=864D30AF596AD24A5506E2C588A1A69D&req_type=json&q=나무
+
+
+-->
+<body>
+<h1>국어 사전 검색</h1>
+<form>
+    단어: <input type="text" id="q" value="나무" placeholder="검색할 단어 입력"/><br>
+    <button type="button" onclick="loadData()">정보 가져오기</button>
+    <button type="button" onclick="removeTable()">지우기</button>
+</form>
+<br><br>
+<h2>AJAX + XML</h2>
+<table id="demoXML"></table>
+<hr>
+<h2>AJAX + JSON</h2>
+<table id="demoJSON"></table>
+
+
+
+
+<script>
+
+    function removeTable(){
+        document.getElementById('demoXML').innerHTML = "";
+        document.getElementById('demoJSON').innerHTML = "";
+    }
+
+
+    function loadData() {
+        var q = document.getElementById("q").value.trim();
+        q = encodeURIComponent(q);  // url encoding
+        var url;
+
+
+        // XML
+
+
+
+
+        // JSON
+        url = `/api/test50?q=${q}`;
+        fetch(url)
+            // .then(response => response.text())  // 확인
+            // .then(text => alert(text))
+        .then(response => response.json())
+        .then(jsonObj => parseJSON(jsonObj))
+        ;
+
+    }
+
+
+    function parseXML(xmlDOM) {
+
+
+    }
+
+
+    function parseJSON(jsonObj){
+        const table = [];
+        table.push("<tr><th>단어</th><th>품사</th><th>정의</th></tr>");
+        for(item of jsonObj.channel.item){
+            table.push(`
+        <tr>
+            <td><a href="${item.sense.link}">${item.word}</a></td>
+            <td>${item.pos}</td>
+            <td>${item.sense.definition}</td>
+        </tr>
+        `);
+        }
+        document.getElementById('demoJSON').innerHTML = table.join('\n');
+    }
+
+
+</script>
+
+
+<br><br><br><br><br><br><br><br><br><br><br><br><br><br><br><br><br><br><br><br><br><br><br><br><br><br><br><br><br><br><br><br><br><br><br><br><br><br><br><br><br><br>
+</body>
+</html>
+
+
+
+
+
+
+
+
+
+
+
+

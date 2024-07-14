@@ -1,0 +1,59 @@
+<!DOCTYPE html>
+<html lang="ko" xmlns:th="http://www.thymeleaf.org">
+<head>
+    <meta charset="UTF-8">
+    <title>Title</title>
+
+    <style>
+        table, th, td {
+            border : 1px solid black;
+            border-collapse: collapse;
+        }
+        table {
+            width: 100%;
+        }
+    </style>
+
+</head>
+<body>
+<table>
+    <tr>
+        <td>ID</td>
+        <td>NAME</td>
+        <td>REGDATE</td>
+        <td>format</td>
+    </tr>
+
+    <tr th:each="member : ${list}">      <!-- list 변수에서 하나씩 뽑아서 member 변수에 담아 반복하여 렌더링 -->
+        <td th:text="${member.id}"></td>
+        <td th:text="${member.name}"></td>
+        <td th:text="${member.regdate}"></td>
+<!--        <td th:text="${member.RegDateTime}"></td>-->
+        <td th:text="${#temporals.format(member.regdate, 'yyy-MM-dd HH:mm:ss')}"></td>
+    </tr>
+
+</table>
+<hr>
+<table>
+    <tr>
+        <td>INDEX</td>
+        <td>SIZE</td>
+        <td>ODD/EVEN</td>
+        <td>ID</td>
+        <td>NAME</td>
+        <td>REGDATE</td>
+    </tr>
+
+    <tr th:each="member, iterState : ${list}">
+        <td th:text="${iterState.index}"></td>  <!-- 0, 1, 2, 3, ... -->
+        <td th:text="${iterState.size}"></td>  <!-- 5 -->
+        <td th:text="${iterState.odd + ' ' + iterState.even}"></td>  <!-- true, false -->
+        <td th:text="${member.id}"></td>
+        <td th:text="${member.name}"></td>
+        <td th:text="${#temporals.format(member.regdate, 'yyyy년 MM월 dd일 HH시 mm분 ss초')}"></td>
+    </tr>
+</table>
+
+
+</body>
+</html>

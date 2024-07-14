@@ -1,0 +1,109 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE mapper
+        PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN"
+        "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+<mapper namespace="com.lec.spring.repository.PostRepository">
+<!--/* 기본적으로 mapper 태그 안에 서 작성 */-->
+
+        <!-- id 값에는 메서드의 이름을 넣는다. 메서드와 1:1 대응-->
+    <insert id="save" flushCache="true"
+            parameterType="com.lec.spring.domain.Post"
+    useGeneratedKeys="true" keyColumn="id" keyProperty="id">
+<!-- ↑ insert 했을때 autoincrement 된 id 값을 받아오는 방법 -->
+<!-- db에서 생성된 새로운 id 값(keyColumn)을 Post의 id property(keyProperty)에 넣는다 -->
+
+        INSERT INTO t5_post
+            (subject, content, user_id)    <!-- 실제로 insert하는 컬럼 -->
+        VALUES
+            (#{subject}, #{content}, #{user.id})   <!-- Post 안에 내용물을 받아옴 -->
+    </insert>
+
+<!--  조회수를 업데이트 하기 위한 컬럼  -->
+    <update id="incViewCnt" flushCache="true">
+        update t5_post
+        set viewcnt = viewcnt + 1
+        where id = #{id}
+    </update>
+
+    <!-- 반복해서 사용될 쿼리문은 sql 태그로 정의 하고, include 태그로 가져다 쓸수 있다 -->
+    <sql id="select_base">
+
+        SELECT
+        p.id "p_id",
+        p.subject "p_subject",
+        p.content "p_content",
+        p.viewcnt "p_viewCnt",
+        p.regdate "p_regDate",
+        u.id "u_id",
+        u.username "u_username",
+        u.name "u_name",
+        u.email "u_email",
+        u.regdate "u_regdate"
+        FROM
+        t5_post p, t5_user u
+        WHERE
+        p.user_id = u.id
+    </sql>
+<!--  JOIN 문에서 여러 테이블의 데이터 매핑 받기   -->
+    <resultMap id="mapUser" type="com.lec.spring.domain.User">
+        <result column="u_id" property="id"/>
+        <result column="u_username" property="username"/>
+        <result column="u_password" property="password"/>
+        <result column="u_name" property="name"/>
+        <result column="u_email" property="email"/>
+        <result column="u_regdate" property="regDate"/>
+    </resultMap>
+
+    <resultMap id="mapPost" type="com.lec.spring.domain.Post">
+        <result column="p_id" property="id"/>
+        <result column="p_subject" property="subject"/>
+        <result column="p_content" property="content"/>
+        <result column="p_viewcnt" property="viewCnt"/>
+        <result column="p_regdate" property="regDate"/>
+        <collection property="user" resultMap="mapUser"/>
+    </resultMap>
+
+<!--  List<Post> List 안에 담겨 있는 것(Post)을 resultType 으로 넣어준다  -->
+    <select id="findAll" resultMap="mapPost">
+        <include refid="select_base"/>    <!-- sql 문 안에 내용이 치환된다 -->
+        ORDER BY p.id DESC
+    </select>
+<!-- 받아온 id 값으로 같은 id 값을 찾아 해당하는 데이터의 정보를 불러온다 -->
+    <select id="findById" resultMap="mapPost">
+        <include refid="select_base"/>
+        and p.id = #{id}
+    </select>
+
+<!-- 받아온 id 값을 기준으로 실제 수정 페이지에서 수정한 데이터들을 데이터베이스에 저장 -->
+    <update flushCache="true" id="update" parameterType="com.lec.spring.domain.Post">
+        update t5_post
+        set subject = #{subject}, content = #{content}
+        where id = #{id}
+    </update>
+
+<!-- 삭제 -->
+    <delete id="delete" flushCache="true" parameterType="com.lec.spring.domain.Post">
+        delete from t5_post where id = #{id}
+    </delete>
+
+<!--  페이징 용 쿼리  -->
+    <select id="selectFromRow" resultMap="mapPost">
+        <include refid="select_base"/>
+        order by p.id desc
+        limit #{param1}, #{param2}   <!--/*form, rows*/-->
+    </select>
+
+    <select id="countAll" resultType="int">
+        select count(*) from t5_post;
+    </select>
+</mapper>
+
+
+
+
+
+
+
+
+
+

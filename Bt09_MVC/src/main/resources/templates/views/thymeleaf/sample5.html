@@ -1,0 +1,45 @@
+<!DOCTYPE html>
+<html lang="ko" xmlns:th="http://www.thymeleaf.org">
+<head>
+    <meta charset="UTF-8">
+    <title>sample5</title>
+</head>
+<body>
+<h1>/sample5</h1>
+
+<div th:text="${result}"> </div> <!-- tag attribute 방식 -->
+<div>[[${result}]]</div>    <!-- inline 방식 -->
+<div>[[${#vars.result}]]</div>  <!-- 모든 변수는 #vars 객체로 접근 가능 -->
+
+<hr>
+
+<script>
+    let result1 = "[[${result}]]";
+    let result2 = [[${result}]];
+</script>
+
+<script th:inline="javascript">
+    let result3 = [[${result}]];    <!-- let result3 = "SUCCESS" -->
+</script>
+<hr>
+
+<table th:inline="text">        <!-- th:inline="text" 가 default-->
+    <tr>
+        <th>ID</th>
+        <th>NAME</th>
+        <th>REGDATE</th>
+    </tr>
+
+    <tr th:each="member : ${list}">
+        <td>[[${member.id}]]</td>
+        <td>[[${member.name}]]</td>
+        <td>[[${member.regdate}]]</td>
+    </tr>
+</table>
+<hr>
+
+<div>[[${msg}]]</div>
+<div>[(${msg})]</div>
+
+</body>
+</html>

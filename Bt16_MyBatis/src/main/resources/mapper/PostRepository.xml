@@ -1,0 +1,76 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE mapper
+        PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN"
+        "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+<mapper namespace="com.lec.spring.repository.PostRepository">
+<!--/* 기본적으로 mapper 태그 안에 서 작성 */-->
+
+        <!-- id 값에는 메서드의 이름을 넣는다. 메서드와 1:1 대응-->
+    <insert id="save" flushCache="true"
+            parameterType="com.lec.spring.domain.Post"
+    useGeneratedKeys="true" keyColumn="id" keyProperty="id">
+<!-- ↑ insert 했을때 autoincrement 된 id 값을 받아오는 방법 -->
+<!-- db에서 생성된 새로운 id 값(keyColumn)을 Post의 id property(keyProperty)에 넣는다 -->
+
+        INSERT INTO t4_post
+            (subject, content, user)    <!-- 실제로 insert하는 컬럼 -->
+        VALUES
+            (#{subject}, #{content}, #{user})   <!-- Post 안에 내용물을 받아옴 -->
+    </insert>
+
+<!--  조회수를 업데이트 하기 위한 컬럼  -->
+    <update id="incViewCnt" flushCache="true">
+        update t4_post
+        set viewcnt = viewcnt + 1
+        where id = #{id}
+    </update>
+
+    <!-- 반복해서 사용될 쿼리문은 sql 태그로 정의 하고, include 태그로 가져다 쓸수 있다 -->
+    <sql id="select_base">
+        SELECT
+        id,
+        subject,
+        content,
+        viewcnt "viewCnt",  <!-- 컬럼명(viewcnt)으로 Post 객체에 mappting => set method 를 통해서 viewcnt 에 대해서 호출 하려고 한다. => 별명을 통해 Post와 맞춰주어야 한다. -->
+        user,
+        regdate "regDate"
+        FROM
+        t4_post
+        WHERE
+        1 = 1   <!-- 뒤쪽에 and 로 연결하기 편함 -->
+    </sql>
+
+<!--  List<Post> List 안에 답겨 있는 것(Post)을 resultType 으로 넣어준다  -->
+    <select id="findAll" resultType="com.lec.spring.domain.Post">
+        <include refid="select_base"/>    <!-- sql 문 안에 내용이 치환된다 -->
+        ORDER BY id DESC
+    </select>
+<!-- 받아오 id 값으로 같은 id 값을 찾아 해당하는 데이터의 정보를 불러온다 -->
+    <select id="findById" resultType="com.lec.spring.domain.Post">
+        <include refid="select_base"/>
+        and id = #{id}
+    </select>
+
+<!-- 받아온 id 값을 기준으로 실제 수정 페이지에서 수정한 데이터들을 데이터베이스에 저장 -->
+    <update id="update" flushCache="true" parameterType="com.lec.spring.domain.Post">
+        update t4_post
+        set subject = #{subject}, content = #{content}
+        where id = #{id}
+    </update>
+
+<!-- 삭제 -->
+    <delete id="delete" flushCache="true" parameterType="com.lec.spring.domain.Post">
+        delete from t4_post where id = #{id}
+    </delete>
+
+</mapper>
+
+
+
+
+
+
+
+
+
+

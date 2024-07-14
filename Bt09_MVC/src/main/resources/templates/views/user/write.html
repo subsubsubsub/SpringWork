@@ -1,0 +1,47 @@
+<!DOCTYPE html>
+<html lang="ko" xmlns:th="http://www.thymeleaf.org">
+<head>
+    <meta charset="UTF-8">
+    <title>글작성</title>
+</head>
+<script>
+    function chkSubmit(){
+        frm = document.forms['frm'];
+
+
+        var name = frm['name'].value.trim();
+        var subject = frm['subject'].value.trim();
+
+
+        if(name == ""){
+            alert("작성자 란은 반드시 입력해야 합니다");
+            frm['name'].focus();
+            return false;
+        }
+        if(subject == ""){
+            alert("제목은 반드시 작성해야 합니다");
+            frm['subject'].focus();
+            return false;
+        }
+        return true;
+    } // end chkSubmit()
+</script>
+<body>
+<h2>글작성</h2>
+<form name="frm" th:action="@{writeOk}" method="post" onsubmit="return chkSubmit()">
+    id:
+    <input type="text" name="id" value="100"/> <br>
+    작성자:
+    <input type="text" name="name" value="홍길동"/><br>
+    제목:
+    <input type="text" name="subject" value="안녕하세요"/><br>
+    내용:<br>
+    <textarea name="content">연휴 잘 보내세요~</textarea>
+    <br><br>
+    <input type="submit" value="등록"/>
+</form>
+</body>
+</html>
+
+
+

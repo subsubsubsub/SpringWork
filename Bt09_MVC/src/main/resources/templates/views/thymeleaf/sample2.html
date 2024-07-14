@@ -1,0 +1,116 @@
+<!DOCTYPE html>
+<html lang="ko" xmlns:th="http://www.thymeleaf.org">
+<head>
+    <meta charset="UTF-8">
+    <title>Title</title>
+</head>
+<body>
+<div th:text="m"></div> <!-- m : literal -->
+<div th:text="${m}"></div>  <!-- ${} variable expression 객체, 변수 .   객체의 경우 toString() 결과가 렌더링 -->
+<div th:text="${'aaa'}"></div>
+<div th:text="${aaa}"></div>    <!-- 렌더링 안해 -->
+<div th:text="${'aaa' + 'bbb'}"></div>
+<div th:text="${aaa + 'bbb'}"></div>
+<!--<div th:text="${aaa + bbb}"></div>-->   <!-- null + null 연산 불가. 파싱 에러-->
+<hr>
+
+<div th:text="${'aaa' + 10 + 'bbb'}"></div>
+<div th:text="${10 + 20}"></div>
+<div th:text="${10 - 20}"></div>
+<div th:text="${10 * 20}"></div>
+<div th:text="${10 / 20}"></div>    <!-- 0 -->
+<div th:text="${10.0 / 20}"></div> <!-- 0.5 -->
+<div th:text="${10 % 3}"></div>
+<hr>
+
+<div th:text="10 + 20"></div>
+<div th:text="10 - 20"></div>
+<div th:text="m + 20"></div>
+<!--<div th:text="m 20"></div>-->   <!-- 에러 -->
+<div th:text="'m 20'"></div>
+<hr>
+
+<div th:text="${m.name}"></div>
+<div th:text="${m.no}"></div>
+<div th:text="${m.id}"></div>
+<div th:text="${m.regdate}"></div>
+<div th:text="${m.nick}"></div> <!-- m.getNick() -->
+<div th:text="${m.Nick}"></div>
+<!--<div th:text="${m.nIck}"></div>-->  <!-- 이건 안되요 -->
+
+<div th:text="${m.regDateTime}"></div>
+<hr>
+
+<!-- 변수표현식 안에서 논리연산자 사용 가능 -->
+<div th:text="${true && false}"></div>
+<div th:text="${!false}"></div>
+<div th:text="${true || false}"></div>
+<div th:text="${true and false}"></div>
+<div th:text="${not false}"></div>
+<div th:text="${true or false}"></div>
+<hr>
+
+<!-- Conditional Expression -->
+<!--* Conditional expressions
+     If-then:(if) ? (then)
+     If-then-else: (if) ? (then) : (else)
+     Default: (value) ?: (defaultvalue)-->
+<div th:text="(10 > 4) ? 'big' : 'small'"></div>
+<div th:text="(10 > 4) ? '크다'"></div>
+<div th:text="(10 < 4) ? '찍히나'"></div>  <!-- 으림없지 => 거짓일 경우 렌더링 되지 않는다.-->
+<div th:text="(null) ?: ' 디폴트값'"></div> <!-- ?: => 거짓일 경우 디폴트값으로 출력할 내용을 담아 렌더링 -->
+<hr>
+
+<!--What's up? 출력 -->
+<h3>escaping 하기</h3>
+<div th:text="${'What''s up?'}"></div>  <!-- ${}(variable expession) 안에서 '' 두 개 -->
+<div th:text="'What\'s up?'"></div>    <!-- ${}(variable expession) 이 아닌 경우는 \' -->
+<hr>
+
+<h3>배열, List, Map</h3>
+<div th:text="${arr1}">내용</div>  <!-- 배열의 toString() 값 [Ljava.lang.String;@331bf2b4 -->
+<div th:text="${arr2}">내용</div>
+<div th:text="${list1}">내용</div>    <!-- List 와 map 은 value 값 출력-->
+<div th:text="${list2}">내용</div>
+<div th:text="${map1}">내용</div>
+<div th:text="${map2}">내용</div>
+<br>
+
+<div th:text="${arr1[0]}"></div>
+<div th:text="${arr1[1]}"></div>
+<div th:text="${arr1[4]}"></div>
+<!--<div th:text="${arr1[10]}"></div>-->    <!-- index 벗어나면 에러 -->
+<br>
+
+<div th:text="${arr2[0]}"></div>
+<div th:text="${arr2[1]}"></div>
+<div th:text="${arr2[1].name}"></div>
+<div th:text="${arr2[1].regdate}"></div>
+<br>
+
+<div th:text="${list1[0]}"></div>
+<div th:text="${list1[1]}"></div>
+<div th:text="${list1[4]}"></div>
+<br>
+
+<div th:text="${list2[3]}"></div>
+<div th:text="${list2[3].name}"></div>
+<div th:text="${list2[3].id}"></div>
+<br>
+
+<div th:text="${map1[0]}"></div>    <!-- key : 0 의 value -->
+<div th:text="${map1[5]}"></div>    <!-- 없는 key 값은? 에러 아니다!!    Array 나 List 는 에러 -->
+<br>
+
+<div th:text="${map2[AAA]}"></div>  <!-- [key] 로 value 접근 -->
+<div th:text="${map2.AAA}"></div>   <!-- .key 로 value 접근 -->
+
+<div th:text="${map2[XXX]}"></div>  <!-- 없는 key 값 -->
+<!--<div th:text="${map2.XXX}"></div>-->  <!-- 에러~ XXX라는 key값이 없기때문에 property(getXXX()) 값을 찾으려 한다 -->
+
+<div th:text="${map2.BBB}"></div>       <!-- map2.get('BBB').getName() -->
+<div th:text="${map2.BBB.name}"></div>
+
+
+</body>
+</html>

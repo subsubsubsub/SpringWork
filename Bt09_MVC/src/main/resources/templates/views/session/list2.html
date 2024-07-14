@@ -1,0 +1,25 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <title>Session</title>
+</head>
+<body>
+    <h1>세션목록</h1>
+
+    <div th:utext="${result}"></div>
+
+    <br>
+    <form th:action="@{/session/create}">
+        <input type="submit" value="세션 attr 생성">
+    </form>
+
+
+    <br>
+    <form th:action="@{/session/delete}">
+        <input type="submit" value="세션 attr 삭제">
+    </form>
+
+
+</body>
+</html>

@@ -1,0 +1,54 @@
+<!DOCTYPE html>
+<html lang="ko" xmlns:th="http://www.thymeleaf.org">
+<head>
+    <meta charset="UTF-8">
+    <title>sample10</title>
+</head>
+<body>
+    <h1>th:Block</h1>
+
+    <div th:with="name='John'">
+        <div>
+            name: [[${name}]]
+            <ol>
+                <li th:text="${name}"></li>
+                <li th:text="${name}"></li>
+                <li th:text="${name}"></li>
+            </ol>
+        </div>
+    </div>
+    <div>name: [[${name}]]</div>    <!-- 렌더링 앙대~ => name 은 위에 div 안에서만 쓸 수 있으니까~ -->
+    <hr>
+
+    <!-- th:block 에서 선언한 변수는. 그 하위에서 사용 가능. th:block 은 response 되지 않는다 -->
+    <th:block th:with="name='John'">    <!-- 페이지 소스코드를 봐도 안나와용~~ -->
+        <div>
+            <div>
+                name: [[${name}]]
+                <ol>
+                    <li th:text="${name}"></li>
+                    <li th:text="${name}"></li>
+                    <li th:text="${name}"></li>
+                </ol>
+            </div>
+        </div>
+
+        <div>name: [[${name}]]</div>
+    </th:block>
+    <hr>
+    <!--
+       th:insert => 자식으로 fragment 삽입
+       th:replace => 해당 element 를 fragment 로 치환
+    -->
+    <th:block th:with="title='소리소리'">
+        <div th:insert="~{thymeleaf/fragments/header::head1}"></div>
+        <div th:insert="~{thymeleaf/fragments/header::lionhead}"></div>
+        <hr>
+
+        <div th:insert="~{thymeleaf/fragments/footer::foot1}"></div>
+        <div th:insert="~{thymeleaf/fragments/footer::side1}"></div>    <!-- <div><span> 사이드 1 입니다. </span></>div> -->
+        <div th:replace="~{thymeleaf/fragments/footer::side1}"></div>   <!-- <span> 사이드 1 입니다. </span> -->
+    </th:block>
+
+</body>
+</html>

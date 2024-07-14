@@ -1,0 +1,22 @@
+<!DOCTYPE html>
+<html lang="ko" xmlns:th="http://www.thymeleaf.org">
+<head>
+    <meta charset="UTF-8">
+    <title>sample7</title>
+</head>
+<body>
+  <h1>Link URL Expressions</h1>
+  <div><a href="http://localhost:8080/thymeleaf/sample1">sample1</a></div>
+  <div><a th:href="@{http://localhost:8080/thymeleaf/sample1}">sample1</a></div>
+  <div><a th:href="@{'http://localhost:8080'+'/thymeleaf' + '/sample1'}">sample1</a></div>
+  <hr>
+  <div><a th:href="@{/sample1}">sample1</a></div>   <!-- http://localhost:8080/sample1  "/conpath/sample1"-->
+  <div><a th:href="@{~/sample1}">sample1</a></div>  <!-- /sample1 -->
+  <div><a th:href="@{/thymeleaf/sample1}">sample1</a></div> <!-- context path가 있는경우 :  "/conpath/thymeleaf/sample1" -->
+  <div><a th:href="@{~/thymeleaf/sample1}">sample1</a></div>  <!--context path가 있는경우 : "/thymeleaf/sample1" -->
+  <hr>
+
+  <div><a th:href="@{/thymeleaf/sample1(p1='aaa', p2='bbb')}">sample1</a></div> <!-- http://localhost:8080/thymeleaf/sample1?p1=aaa&p2=bbb => query string을 만들어준다.-->
+  <div><a th:href="@{${relativeURL}}">sample1</a></div>
+</body>
+</html>

@@ -1,0 +1,26 @@
+<!DOCTYPE html>
+<html lang="ko" xmlns:th="http://www.thymeleaf.org">
+
+<!-- thymeleaf 에선 param 접두어를 붙이면 parameter 표시 가능
+    parameter 를 표시하기 위해 굳이 Model 에 담을 필요 없다 -->
+
+작성자 : [[${param.name}]]<br>
+글제목 : [[${param.subject}]]<br>
+내용 : [[${param.content}]]<br>
+<hr>
+<!--/*
+Post : [[${post}]]<br>
+작성자 : [[${post.name}]]<br>
+글제목 : [[${post.subject}]]<br>
+내용 : [[${post.content}]]<br>
+<hr>
+*/-->
+
+Post : [[${DTO}]]<br>
+작성자 : [[${DTO.name}]]<br>
+글제목 : [[${DTO.subject}]]<br>
+내용 : [[${DTO.content}]]<br>
+<hr>
+
+<button onclick="history.back()">이전으로</button>
+</html>

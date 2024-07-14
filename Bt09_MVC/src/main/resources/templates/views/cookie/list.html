@@ -1,0 +1,21 @@
+<!DOCTYPE html>
+<html lang="ko" xmlns:th="http://www.thymeleaf.org">
+<head>
+    <meta charset="UTF-8">
+    <title>cookie 리스트</title>
+</head>
+<body>
+    <h1>쿠키 목록</h1>
+    <div th:utext="${result}"></div>
+    <br>
+
+    <form th:action="@{/cookie/create}">
+        <input type="submit" value="쿠키생성&갱신">
+    </form>
+
+    <br>
+    <form th:action="@{/cookie/delete}">
+        <input type="submit" value="쿠키삭제">
+    </form>
+</body>
+</html>

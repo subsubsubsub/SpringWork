@@ -1,0 +1,9 @@
+<!DOCTYPE html>
+<html lang="ko" xmlns:th="http://www.thymeleaf.org">
+
+<!-- id를 넣지 않으면 null값이 들어간다 but age값이 없으면 500에러 (NumberFormatException) -->
+id : <span th:text="${mdId}"></span><br>
+age : <span th:text="${mdAge}"></span><br>
+ages : <span th:text="${ages}"></span>
+
+</html>

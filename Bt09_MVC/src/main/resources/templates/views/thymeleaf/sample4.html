@@ -1,0 +1,103 @@
+<!DOCTYPE html>
+<html lang="ko" xmlns:th="http://www.thymeleaf.org">
+<head>
+    <meta charset="UTF-8">
+    <title>sample4</title>
+
+    <style>
+        table, th, td {
+            border: 1px solid black;
+            border-collapse: collapse;
+        }
+
+
+        table {
+            width: 100%;
+        }
+    </style>
+
+</head>
+<body>
+<h1>/sample4</h1>
+
+<!-- table 요소 안에서만 사용가능한 지역변수 target 선언 및 초기화-->
+<table th:with="target='u01'">
+    <tr>
+        <td>ID</td>
+        <td>NAME</td>
+        <td>REGDATE</td>
+    </tr>
+
+    <tr th:each="member : ${list}">
+        <td th:text="${member.id == target ? 'SECRET' : member.id}"></td>
+        <td th:text="${member.name}"></td>
+        <td th:text="${#temporals.format(member.regdate, 'yyyy-MM-dd HH:mm:ss')}"></td>
+    </tr>
+
+</table>
+
+<div th:text="${target}"></div>     <!-- th:with 선언된 element 밖에서는 사용 못함 (렌더링만 안될 뿐, 에러는 아니다)-->
+<hr>
+<h3 th:text="${#lists.size(list)}"></h3>    <!-- #lists 표현식 유틸리티 객체 사용해서 배열, List 개수 출력 (5)-->
+<hr>
+
+<table th:with="target='u01'">
+    <tr>
+        <td>link</td>
+        <td>ID</td>
+        <td>NAME</td>
+        <td>REGDATE</td>
+    </tr>
+
+    <!-- th:if=조건식  .  이 값이 '참' 이면 렌더링 -->
+    <!-- th:if="${member.id}"   => 3번 인덱스는 id 값이 null 이기 때문에 렌더링 되지 않는다 -->
+    <tr th:each="member : ${list}" th:if="${member.id}">
+        <td>
+            <a th:if="${member.id == target}" href="/modify">MODIFY</a>     <!-- if 조건식이 '참' 일때만 렌더링 -->
+            <p th:unless="${member.id == target}">VIEW</p>    <!-- unless 조건식이 '거짓' 일때만 렌더링 -->
+        </td>
+
+        <td th:text="${member.id == target ? 'SECRET' : member.id}"></td>
+        <td th:text="${member.name}"></td>
+        <td th:text="${#temporals.format(member.regdate, 'yyyy-MM-dd HH:mm:ss')}"></td>
+    </tr>
+</table>
+<hr>
+<br>
+
+<!--
+   Map<K,V> 을 iteration 하면 Entry<K,V> 가 나온다.
+   Entry<K,V> 의 'key', 'value' property 값을 사용하여 접근 가능.
+-->
+<table>
+    <tr>
+        <td>key</td>
+        <td>ID</td>
+        <td>NAME</td>
+        <td>REGDATE</td>
+    </tr>
+
+    <tr th:each="entry : ${map2}">
+        <td th:text="${entry.key}"></td>
+        <td th:text="${entry.value.id}"></td>
+        <td th:text="${entry.value.name}"></td>
+        <td th:text="${entry.value.regdate}"></td>
+    </tr>
+</table>
+<hr>
+<br>
+
+test1: <span th:if="${test1}" th:text="${test1}"></span><br>
+test2: <span th:if="${test2}" th:text="${test2}"></span><br>
+test3: <span th:if="${test3}" th:text="${test3}"></span><br>
+test4: <span th:if="${test4}" th:text="${test4}"></span><br>
+<br>
+
+<!-- null 혹은 empty 문자열 -->
+<!-- #strings.isEmpty => null 이거나 empty 면 true 리턴 -->
+empty1: <span th:if="${not #strings.isEmpty(test1)}" th:text="${test1}"></span><br>
+empty2: <span th:if="${not #strings.isEmpty(test2)}" th:text="${test2}"></span><br>
+empty3: <span th:if="${not #strings.isEmpty(test3)}" th:text="${test3}"></span><br>
+
+</body>
+</html>

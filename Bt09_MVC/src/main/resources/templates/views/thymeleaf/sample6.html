@@ -1,0 +1,57 @@
+<!DOCTYPE html>
+<html lang="ko" xmlns:th="http://www.thymeleaf.org">
+<head>
+    <meta charset="UTF-8">
+    <title>sample6</title>
+
+    <style>
+        table, th, td {
+            border : 1px solid black;
+            border-collapse: collapse;
+        }
+        table {width: 100%;}
+    </style>
+
+</head>
+<body>
+    <h1>/sample6</h1>
+    <h3>#temporals : java.time.* 객체</h3>
+    <div th:text="${now1}"></div>
+    <div th:text="${#temporals.format(now1)}"></div>
+    <div th:text="${#temporals.format(now1, 'yyyy-MM-dd HH:mm:ss')}"></div>
+
+    <div th:text="${#temporals.createNow()}"></div> <!-- <div th:text="${#temporals.format(now1)}"></div> 와 동일한 결과 출력 -->
+                                            <!-- 변수 없이 현재 LocalDateTime 의 toString 출력 -->
+    <hr>
+
+    <div th:text="${price}"></div>
+    <div th:text="${#numbers.formatInteger(price, 3, 'COMMA')}"></div>
+    <div th:with="priceValue=2099.87654">
+        <div th:text="${priceValue}"></div>
+        <div th:text="${#numbers.formatInteger(priceValue, 3, 'COMMA')}"></div> <!-- 소수점 첫째자리에서 반올림하여 출력 -->
+        <div th:text="${#numbers.formatDecimal(priceValue, 5, 10, 'POINT')}"></div> <!-- 소수점 앞은 5자리 뒤는 10자리  02099.8765400000 -->
+        <div th:text="${#numbers.formatDecimal(priceValue, 5, 2, 'POINT')}"></div>  <!-- 소수점 3자리 에서 반올림  02099.88 -->
+        <div th:text="${#numbers.formatDecimal(priceValue, 3, 'COMMA', 2, 'POINT')}"></div> <!-- 2,099.88 -->
+    </div>
+    <hr>
+
+    <div th:text="${title}"></div>
+    <div th:utext="${#strings.replace(title, 'sample', '<u>SPARTA!!</u>')}"></div>
+
+    <ul>
+        <li th:each="str : ${#strings.listSplit(title, ' ')}" th:text="${str}"></li>
+            <!-- #strings.listSplit(title, ' ') => 배열 리턴 -->
+                <!-- th:text="${str}" => 출력 -->
+    </ul>
+    <hr>
+
+    <h3>#lists</h3>
+    <div th:text="${options}"></div>
+    <div th:text="${#lists.size(options)}"></div>   <!-- 4 -->
+    <div th:text="${#lists.isEmpty(options)}"></div>    <!-- false => 비어있는 list 이면 true 리턴 -->
+    <div th:text="${#lists.contains(options, 'BBB')}"></div>    <!-- 'BBB' 가 있으면 true 리턴 -->
+    <div th:text="${#lists.sort(options)}"></div>   <!-- 오름차순 정렬된 결과 리턴 -->
+    <div th:text="${options}"></div>    <!-- 원본에 변화는 없다. -->
+
+</body>
+</html>
