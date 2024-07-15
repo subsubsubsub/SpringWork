@@ -1,13 +1,11 @@
 package com.lec.spring.domain;
 
 import jakarta.persistence.*;
-import lombok.AllArgsConstructor;
-import lombok.Builder;
-import lombok.Data;
-import lombok.NoArgsConstructor;
+import lombok.*;
 import org.hibernate.annotations.ColumnDefault;
 
 import java.time.LocalDateTime;
+import java.util.List;
 
 @Data
 @NoArgsConstructor
@@ -40,4 +38,5 @@ public class Post {
     private void prePersist() {
         this.regDate = LocalDateTime.now();
     }
+
 }

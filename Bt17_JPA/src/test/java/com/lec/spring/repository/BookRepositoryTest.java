@@ -7,7 +7,10 @@ import com.lec.spring.domain.User;
 import org.junit.jupiter.api.Test;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.boot.test.context.SpringBootTest;
+import org.springframework.data.domain.PageRequest;
 import org.springframework.transaction.annotation.Transactional;
+
+import java.time.LocalDateTime;
 
 import static org.junit.jupiter.api.Assertions.*;
 
@@ -37,7 +40,8 @@ class BookRepositoryTest {
     }
 
     @Test
-    @Transactional  // 지금은 OneToMany 에서 발생하는 LazyInitializationException 을 막기위해 사용
+    @Transactional
+        // 지금은 OneToMany 에서 발생하는 LazyInitializationException 을 막기위해 사용
     void bookRelationTest() {
         System.out.println("\n-- TEST#bookRelationTest() ---------------------------------------------");
 
@@ -96,9 +100,64 @@ class BookRepositoryTest {
         givenReview(givenUser(), givenBook(givenPublisher()));
     }
 
+    //  --------------------------------------------------------------------
+    // 커스텀 쿼리
+    @Test
+    void queryTest1() {
+        System.out.println("findByCategoryIsNullAndNameEqualsAndCreatedAtGreaterThanEqualAndUpdatedAtGreaterThanEqual() : ");
+        System.out.println(bookRepository.findByCategoryIsNullAndNameEqualsAndCreatedAtGreaterThanEqualAndUpdatedAtGreaterThanEqual(
+                "JPA 완전정복",
+                LocalDateTime.now().minusDays(1L),
+                LocalDateTime.now().minusDays(1L)
+        ));
+    }
 
+    @Test
+    void queryTest2() {
+        System.out.println("findByNameRecently: " +
+                bookRepository.findByNameRecently(
+                        "JPA 완전정복"
+                        , LocalDateTime.now().minusDays(1L)
+                        , LocalDateTime.now().minusDays(1L)));
+    }
+
+    @Test
+    void queryTest3() {
+        System.out.println("findByNameRecently: " +
+                bookRepository.findByNameRecently2(
+                        "JPA 완전정복"
+                        , LocalDateTime.now().minusDays(1L)
+                        , LocalDateTime.now().minusDays(1L)));
+    }
+
+    @Test
+    void queryTest4() {
+        bookRepository.findBookNameAndCategory1().forEach(tuple -> {
+            System.out.println(tuple.get(0) + " : " + tuple.get(1));
+        });
+    }
+
+    @Test
+    void queryTest5() {
+        bookRepository.findBookNameAndCategory2().forEach(b -> {
+            System.out.println(b.getName() + " : " + b.getCategory());
+        });
+    }
+
+    @Test
+    void queryTest6() {
+        bookRepository.findBookNameAndCategory3().forEach(b -> {
+            System.out.println(b.getName() + " : " + b.getCategory());
+        });
+    }
+
+    @Test
+    void queryTest7() {
+        bookRepository.findBookNameAndCategory4(PageRequest.of(0, 1)).forEach(b -> {
+            System.out.println(b.getName() + " : " + b.getCategory());
+        });
+    }
 }
-
 
 
 

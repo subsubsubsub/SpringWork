@@ -1,36 +1,38 @@
 package com.lec.spring.domain;
 
-import com.fasterxml.jackson.annotation.JsonFormat;
 import com.fasterxml.jackson.annotation.JsonIgnore;
-import com.fasterxml.jackson.annotation.JsonProperty;
-import com.fasterxml.jackson.databind.annotation.JsonDeserialize;
-import com.fasterxml.jackson.databind.annotation.JsonSerialize;
-import com.fasterxml.jackson.datatype.jsr310.deser.LocalDateTimeDeserializer;
-import com.fasterxml.jackson.datatype.jsr310.ser.LocalDateTimeSerializer;
+import jakarta.persistence.*;
 import lombok.*;
+import org.springframework.web.bind.annotation.BindParam;
 
-import java.time.LocalDateTime;
+import java.util.ArrayList;
+import java.util.List;
 
 @Data
 @NoArgsConstructor
 @AllArgsConstructor
 @Builder
-public class Comment {
+@ToString(callSuper = true)
+@EqualsAndHashCode(callSuper = true)
+@Entity(name = "t8_comment")
+public class Comment extends BaseEntity {
 
+    @Id
+    @GeneratedValue(strategy = GenerationType.IDENTITY)
     private Long id;    // PK
 
+    @Column(nullable = false)
+    private String content; // 댓글내용
+
+    // Comment:User = N:1   특정 댓글의 -> 작성자 정보 필요.
+    @ManyToOne(optional = false)
     @ToString.Exclude   // user 는 toString 에서 제외
     private User user;  // 댓글 작성자(FK)
 
+    @Column(name = "post_id")
     @JsonIgnore
-    private Long post_id;   // 어느글의 댓글인지    // 게시글의 id
+    private Long post;   // 어느글의 댓글인지    // 게시글의 id
 
-    private String content; // 댓글내용
 
-    // java.time.* 객체 변환을 위한 annotation // 내가 원하는 문자열로 json 문자 변환
-    @JsonDeserialize(using = LocalDateTimeDeserializer.class)
-    @JsonSerialize(using = LocalDateTimeSerializer.class)
-    @JsonFormat(pattern = "yyyy-MM-dd HH:mm:ss", timezone = "Asia/Seoul")
-    @JsonProperty("regdate")    // 변환하고자 하는 형태 지정 가능
-    private LocalDateTime regDate;
+
 }

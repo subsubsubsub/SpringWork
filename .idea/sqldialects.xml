@@ -9,6 +9,7 @@
     <file url="file://$PROJECT_DIR$/Bt50_Board/ERD/t5_web_oauth.sql" dialect="MySQL" />
     <file url="file://$PROJECT_DIR$/Bt50_Board/ERD/t5_web_test.sql" dialect="MySQL" />
     <file url="file://$PROJECT_DIR$/Bt50_Board/src/main/resources/mapper/PostRepository.xml" dialect="MySQL" />
+    <file url="file://$PROJECT_DIR$/Bt63_JPA_Board/ERD/t8_web_test.sql" dialect="MySQL" />
     <file url="PROJECT" dialect="MySQL" />
   </component>
 </project>

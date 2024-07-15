@@ -11,4 +11,12 @@ values (default, 'james', 'james@bluedragon.com', now(), now());
 insert into t_user (`id`, `name`, `email`, `created_at`, `updated_at`)
 values (default, 'martin', 'martin@another.com', now(), now());
 
+-- book , publisher 추가
+insert into publisher(`id`, `name`) values (default, '더테크출판');
+
+
+insert into book(`id`, `name`, `publisher_id`, `created_at`, `updated_at`) values (default, 'JPA 완전정복', 1, now(), now());
+insert into book(`id`, `name`, `publisher_id`, `created_at`, `updated_at`) values (default, '스프링 시큐리티', 1, now(), now());
+insert into book(`id`, `name`, `publisher_id`, `created_at`, `updated_at`) values (default, '스프링 부트', 1, now(), now());
+
 
