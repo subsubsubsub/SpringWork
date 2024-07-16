@@ -111,7 +111,30 @@ public class User extends BaseEntity {
 //    public void postLoad() {
 //        System.out.println(">>> postLoad");
 //    }
-//
+
+    // Embedded 예제
+    // Embed 없이 주소 다루기
+//    private String city;
+//    private String district;
+//    private String detail;
+//    private String zipCode;
+    @Embedded   // Embeddable 클래스 임을 명시
+    @AttributeOverrides({
+            @AttributeOverride(name = "city", column = @Column(name = "home_city"))
+            , @AttributeOverride(name = "district", column = @Column(name = "home_district"))
+            , @AttributeOverride(name = "detail", column = @Column(name = "home_address_detail"))
+            , @AttributeOverride(name = "zipCode", column = @Column(name = "home_zip_Code"))
+    })
+    private Address homeAddress;
+
+    @Embedded
+    @AttributeOverrides({
+            @AttributeOverride(name = "city", column = @Column(name = "company_city")),
+            @AttributeOverride(name = "district", column = @Column(name = "company_distirct")),
+            @AttributeOverride(name = "detail", column = @Column(name = "company_address_detail")),
+            @AttributeOverride(name = "zipCode", column = @Column(name = "company_zip_code")),
+    })
+    private Address companyAddress;
 
 
 }

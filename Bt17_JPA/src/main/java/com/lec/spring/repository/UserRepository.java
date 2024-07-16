@@ -139,6 +139,12 @@ public interface UserRepository extends JpaRepository<User, Long> {
     @Query(value = "SELECT * FROM t_user LIMIT 1", nativeQuery = true)
     Map<String, Object> findRowRecord();
 
+    // Embed
+    // 두개의 Address 값에 null 이나 empty 가 저장되면 DB 에는 무엇이 저장되어 있을까?
+    @Query(value = "SELECT * FROM t_user", nativeQuery = true)
+    List<Map<String, Object>> findAllRowRecord();
+
+
 }
 
 
