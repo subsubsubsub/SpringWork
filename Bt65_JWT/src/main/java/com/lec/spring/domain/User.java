@@ -22,6 +22,7 @@ public class User {
     private String username;
 
     @Column(nullable = false)
+    @JsonIgnore // 다시 살림
     private String password;
 
     private String role;    // "ROLE_MEMBER", "ROLE_MEMBER,ROLE_ADMIN"

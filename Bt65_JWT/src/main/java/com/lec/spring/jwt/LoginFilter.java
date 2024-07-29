@@ -16,6 +16,7 @@ import java.io.IOException;
 import java.util.Collection;
 import java.util.stream.Collectors;
 
+
 public class LoginFilter extends UsernamePasswordAuthenticationFilter {
 
     private final AuthenticationManager authenticationManager;
@@ -68,7 +69,7 @@ public class LoginFilter extends UsernamePasswordAuthenticationFilter {
                 .map(grantedAuthority -> grantedAuthority.getAuthority())
                 .collect(Collectors.joining(","));
 
-        String token = jwtUtil.createJwt(id, username, role, 60 * 60 * 10L);
+        String token = jwtUtil.createJwt(id, username, role, 30 * 60 * 1000L);
 
         response.addHeader("Authorization", "Bearer " + token);
 

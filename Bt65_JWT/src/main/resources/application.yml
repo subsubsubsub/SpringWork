@@ -37,6 +37,11 @@ jwt:
   secret: z81H!TqF2JuMqqQpAw|EFhpnf|vmvpuVuqzmkDtX07377+@AcbyY09-GB5dRDS1R
 
 
+# cors 관련 설정 값들, 띄어쓰기 주의!!
+cors:
+  allowed-origins: http://localhost:3000,http://localhost:3001
+
+
 
 
 
