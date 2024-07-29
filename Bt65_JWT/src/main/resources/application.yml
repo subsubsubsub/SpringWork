@@ -1,0 +1,42 @@
+# 서버 포트 번호
+server:
+  port: 8080
+
+spring:
+  application.name: Bt65_JWT
+
+  # 콘솔 ANSI 색상
+  output:
+    ansi:
+      enabled: always
+
+  # spring-jdbc 설정시 아래 정보 없으면 가동시 에러 발생
+  datasource:
+    driver-class-name: com.mysql.cj.jdbc.Driver
+    url: jdbc:mysql://localhost:3306/db326?useSSL=false&serverTimezone=Asia/Seoul&allowPublicKeyRetrieval=true
+    username: user326
+    password: 1234
+
+  # JPA 관련 설정
+  jpa:
+    show-sql: true   # JPA에서 생성되는 SQL 문을 콘솔 출력
+    properties:
+      hibernate.format_sql: true  # 쿼리가 훨씬 보기 좋게 정렬되어 로그 찍힌다
+    hibernate:
+      ddl-auto: update
+
+# JWT secret 값 설정
+# HS256 의 경우 256bit를 암호화 할수 있을만큼 충분히 긴 암호 설정해주면 된다.
+
+
+# HS512 알고리즘의 시크릿키 : 512비트 (64바이트) 이상
+# https://passwords-generator.org/kr/
+# ✅ 위 사이트에서 길이:64 로 생성함.
+
+jwt:
+  secret: z81H!TqF2JuMqqQpAw|EFhpnf|vmvpuVuqzmkDtX07377+@AcbyY09-GB5dRDS1R
+
+
+
+
+
